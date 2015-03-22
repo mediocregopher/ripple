@@ -1,6 +1,9 @@
 pp = require 'inspect'
 ripple = require 'ripple'
 
+-- We only do this once, not on every newGame
+introFade = 255
+
 function newGame()
     game = {
         ripples = {},
@@ -135,6 +138,8 @@ function love.update(dt)
             end
         end
     end
+
+    introFade = math.clamp(0, introFade - 5, 255)
 end
 
 function love.draw()
@@ -143,6 +148,11 @@ function love.draw()
     end
     drawDude()
     drawUI()
+
+    if introFade > 1 then
+        love.graphics.setColor(255, 255, 255, introFade)
+        love.graphics.rectangle("fill", 0, 0, w, h)
+    end
 end
 
 function drawDude()
