@@ -40,7 +40,7 @@ function love.load()
             font = love.graphics.newFont(fontPath, 48),
             color = {120,168,144},
         },
-        ["color"] = {
+        ["count"] = {
             font = love.graphics.newFont(fontPath, 56),
             color = {120,168,144},
         },
@@ -167,7 +167,7 @@ function drawUI()
         setFont("instr")
         love.graphics.printf("Arrow/WASD to move\nSpace to jump", 0, h/2 + 200, w, "center")
     else
-        setFont("color")
+        setFont("count")
         love.graphics.printf(game.progress.jumps, w - 80, 10, 60, "right")
     end
 
