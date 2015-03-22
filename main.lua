@@ -29,9 +29,30 @@ function love.load()
     love.mouse.setVisible(false)
     love.graphics.setBackgroundColor(248, 252, 255)
     w, h = love.graphics.getDimensions()
-    font = love.graphics.newFont('assets/BretanPro.otf', 48)
+
+    fontPath = 'assets/GenW-Light.ttf'
+    fonts = {
+        ["title"] = {
+            font = love.graphics.newFont(fontPath, 128),
+            color = {120,168,144},
+        },
+        ["instr"] = {
+            font = love.graphics.newFont(fontPath, 48),
+            color = {120,168,144},
+        },
+        ["color"] = {
+            font = love.graphics.newFont(fontPath, 56),
+            color = {120,168,144},
+        },
+    }
 
     game = newGame()
+end
+
+function setFont(f)
+    font = fonts[f]
+    love.graphics.setColor(font.color[1], font.color[2], font.color[3])
+    love.graphics.setFont(font.font)
 end
 
 function isDown(keys)
@@ -133,22 +154,25 @@ function drawDude()
         end
     end
 
-    love.graphics.setColor(134,194,69)
+    love.graphics.setColor(120,168,144)
     rad = game.dude.radius + (game.dude.zBump / 5)
     love.graphics.circle("fill", game.dude.pos.x, game.dude.pos.y - game.dude.zBump, rad, 50)
 end
 
 function drawUI()
-    love.graphics.setColor(9,115,138)
-    love.graphics.setFont(font)
 
     if game.progress.jumps == 0 then
-        love.graphics.print("Arrow/WASD to move\nSpace to jump", 20, 10)
+        setFont("title")
+        love.graphics.printf("Ripple", 0, h/2 - 300, w, "center")
+        setFont("instr")
+        love.graphics.printf("Arrow/WASD to move\nSpace to jump", 0, h/2 + 200, w, "center")
     else
-        love.graphics.print(game.progress.jumps, 20, 10)
+        setFont("color")
+        love.graphics.printf(game.progress.jumps, w - 80, 10, 60, "right")
     end
 
     if game.progress.died then
-        love.graphics.print("r to Restart\nESC to quit", w/2, h/2)
+        setFont("instr")
+        love.graphics.printf("r to Restart\nESC to quit", 0, h/2 + 200, w, "center")
     end
 end
