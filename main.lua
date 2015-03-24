@@ -74,7 +74,7 @@ end
 function love.keypressed(key, isrepeat)
     if key == "space" and not game.dude.inAir then
         game.dude.inAir = true
-        game.dude.zVel = 10
+        game.dude.zVel = 12
     end
 end
 
@@ -171,7 +171,7 @@ function drawDude()
     end
 
     love.graphics.setColor(120,168,144)
-    rad = game.dude.radius + (game.dude.zBump / 5)
+    rad = game.dude.radius + (game.dude.zBump / 8)
     love.graphics.circle("fill", game.dude.pos.x, game.dude.pos.y - game.dude.zBump, rad, 50)
 end
 
