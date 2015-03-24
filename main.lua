@@ -19,6 +19,7 @@ function newGame()
         progress = {
             died = false,
             jumps = 0,
+            outroFade = 255,
         }
     }
     return game
@@ -54,9 +55,10 @@ function love.load()
     addRipple(w/2, h/2, w/5, 0)
 end
 
-function setFont(f)
+function setFont(f, alpha)
+    if not alpha then alpha = 255 end
     font = fonts[f]
-    love.graphics.setColor(font.color[1], font.color[2], font.color[3])
+    love.graphics.setColor(font.color[1], font.color[2], font.color[3], alpha)
     love.graphics.setFont(font.font)
 end
 
@@ -146,6 +148,9 @@ function love.update(dt)
     end
 
     introFade = math.clamp(0, introFade - 5, 255)
+    if game.progress.jumps > 0 then
+        game.progress.outroFade = math.clamp(0, game.progress.outroFade -  5, 255)
+    end
 end
 
 function love.draw()
@@ -177,10 +182,10 @@ end
 
 function drawUI()
 
-    if game.progress.jumps == 0 then
-        setFont("title")
+    if game.progress.outroFade > 0 then
+        setFont("title", game.progress.outroFade)
         love.graphics.printf("RIPPLE", 0, h/2 - 300, w, "center")
-        setFont("instr")
+        setFont("instr", game.progress.outroFade)
         love.graphics.printf("Arrows/WASD to move\nSpace to jump", 0, h/2 + 200, w, "center")
     else
         setFont("count")
