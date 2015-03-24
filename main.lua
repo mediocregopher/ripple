@@ -6,7 +6,8 @@ introFade = 255
 
 function newGame()
     game = {
-        ripples = {},
+        ripples = {
+        },
         dude = {
             pos = {x = w/2, y = h/2},
             radius = 10,
@@ -50,6 +51,7 @@ function love.load()
     }
 
     game = newGame()
+    addRipple(w/2, h/2, w/5, 0)
 end
 
 function setFont(f)
@@ -77,6 +79,11 @@ function love.keypressed(key, isrepeat)
 end
 
 function math.clamp(low, n, high) return math.min(math.max(n, low), high) end
+
+function addRipple(x, y, speed, bounces)
+    r = ripple.new(x, y, speed, bounces)
+    game.ripples[r] = true
+end
 
 function love.update(dt)
 
@@ -126,8 +133,7 @@ function love.update(dt)
 
         speed = love.math.random(w/20, w/15)
         bounces = love.math.random(1,2)
-        r = ripple.new(game.dude.pos.x, game.dude.pos.y, speed, bounces)
-        game.ripples[r] = true
+        addRipple(game.dude.pos.x, game.dude.pos.y, speed, bounces)
     end
 
     if not game.dude.inAir then
