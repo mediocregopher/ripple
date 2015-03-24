@@ -72,6 +72,7 @@ return {
         for _, pos in pairs(r.pos) do
             color = posColor(r, pos)
             love.graphics.setColor(color[1], color[2], color[3]);
+            love.graphics.setLineWidth(pos.c+1)
             love.graphics.circle("line", pos.x, pos.y, radius(r), 100)
         end
     end,

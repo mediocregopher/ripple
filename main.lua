@@ -33,7 +33,7 @@ function love.load()
     love.graphics.setBackgroundColor(248, 252, 255)
     w, h = love.graphics.getDimensions()
 
-    fontPath = 'assets/GenW-Light.ttf'
+    fontPath = 'assets/Roboto-Thin.ttf'
     fonts = {
         ["title"] = {
             font = love.graphics.newFont(fontPath, 128),
@@ -173,9 +173,9 @@ function drawUI()
 
     if game.progress.jumps == 0 then
         setFont("title")
-        love.graphics.printf("Ripple", 0, h/2 - 300, w, "center")
+        love.graphics.printf("RIPPLE", 0, h/2 - 300, w, "center")
         setFont("instr")
-        love.graphics.printf("Arrow/WASD to move\nSpace to jump", 0, h/2 + 200, w, "center")
+        love.graphics.printf("Arrows/WASD to move\nSpace to jump", 0, h/2 + 200, w, "center")
     else
         setFont("count")
         love.graphics.printf(game.progress.jumps, w - 80, 10, 60, "right")
@@ -183,6 +183,6 @@ function drawUI()
 
     if game.progress.died then
         setFont("instr")
-        love.graphics.printf("r to Restart\nESC to quit", 0, h/2 + 200, w, "center")
+        love.graphics.printf("r to restart\nEsc to quit", 0, h/2 + 200, w, "center")
     end
 end
