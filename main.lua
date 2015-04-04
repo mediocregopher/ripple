@@ -7,8 +7,56 @@ introFade = 255
 -- How many seconds the dude should fade out for on death (times 255)
 deathFadeScale = 1 * 255
 
+-- The font to use
+fontPath = 'assets/Roboto-Thin.ttf'
+
+-- Color palettes available. One will be chosen at random on every newGame. The
+-- index of the color will be used as the color of a ripple with that many
+-- bounces in it. So a ripple with no bounces will use the first color, one
+-- bounce will use the second color, etc... The final color is also used as the
+-- color of the dude.
+colors = {
+    { -- The River
+        {159,180,159},
+        {78,144,135},
+        {52,98,100},
+        {37,66,71},
+    },
+    { -- River Dance
+        {162,212,224},
+        {114,198,219},
+        {68,169,194},
+        {50,122,140},
+        {48,71,77},
+    },
+    { -- Rivers of Babylon
+        {196,231,242},
+        {150,224,235},
+        {104,216,227},
+        {6,153,173},
+        {85,100,105},
+    },
+}
+
 function newGame()
+    c = colors[love.math.random(1,table.getn(colors))]
+    cn = table.getn(c)
     game = {
+        colors = c,
+        fonts = {
+            ["title"] = {
+                font = love.graphics.newFont(fontPath, 128),
+                color = c[cn-1],
+            },
+            ["instr"] = {
+                font = love.graphics.newFont(fontPath, 48),
+                color = c[cn-1],
+            },
+            ["count"] = {
+                font = love.graphics.newFont(fontPath, 56),
+                color = c[cn],
+            },
+        },
         ripples = {
         },
         dude = {
@@ -18,6 +66,7 @@ function newGame()
             inAir = false,
             zBump = 0,
             zVel = 0,
+            color = c[cn],
         },
         progress = {
             died = false,
@@ -39,29 +88,13 @@ function love.load()
     love.graphics.setBackgroundColor(248, 252, 255)
     w, h = love.graphics.getDimensions()
 
-    fontPath = 'assets/Roboto-Thin.ttf'
-    fonts = {
-        ["title"] = {
-            font = love.graphics.newFont(fontPath, 128),
-            color = {120,168,144},
-        },
-        ["instr"] = {
-            font = love.graphics.newFont(fontPath, 48),
-            color = {120,168,144},
-        },
-        ["count"] = {
-            font = love.graphics.newFont(fontPath, 56),
-            color = {120,168,144},
-        },
-    }
-
     game = newGame()
     addRipple(w/2, h/2, w/5, 0)
 end
 
 function setFont(f, alpha)
     if not alpha then alpha = 255 end
-    font = fonts[f]
+    font = game.fonts[f]
     love.graphics.setColor(font.color[1], font.color[2], font.color[3], alpha)
     love.graphics.setFont(font.font)
 end
@@ -87,7 +120,7 @@ end
 function math.clamp(low, n, high) return math.min(math.max(n, low), high) end
 
 function addRipple(x, y, speed, bounces)
-    r = ripple.new(x, y, speed, bounces)
+    r = ripple.new(x, y, speed, bounces, game.colors)
     game.ripples[r] = true
 end
 
@@ -177,12 +210,14 @@ function love.draw()
 end
 
 function drawDude()
+    red = game.dude.color[1]
+    green = game.dude.color[2]
+    blue = game.dude.color[3]
+    alpha = 255
     if game.progress.died then
         alpha = 255 - math.clamp(0, (love.timer.getTime() - game.progress.diedTS) * deathFadeScale, 255)
-        love.graphics.setColor(211, 226, 182, alpha)
-    else
-        love.graphics.setColor(120, 168, 144)
     end
+    love.graphics.setColor(red, green, blue, alpha)
 
     rad = game.dude.radius + (game.dude.zBump / 8)
     love.graphics.circle("fill", game.dude.pos.x, game.dude.pos.y - game.dude.zBump, rad, 50)

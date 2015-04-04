@@ -1,29 +1,5 @@
-colors = {
-    {
-        {104,179,175},
-        {135,189,177},
-        {170,204,177},
-        {195,219,180},
-        {211,226,182},
-    },
-    {
-        {22,147,165},
-        {69,181,196},
-        {126,206,202},
-        {160,222,214},
-        {199,237,232},
-    },
-    {
-        {9,43,90},
-        {9,115,138},
-        {120,168,144},
-        {158,209,183},
-        {231,217,180},
-    },
-}
-
 function posColor(r, pos)
-    return r.colors[r.bounces - pos.c + 1]
+    return r.colors[pos.c + 1]
 end
 
 function bouncePositionsInner(x, y, w, h, c, all)
@@ -52,13 +28,13 @@ function radius(r)
 end
 
 return {
-    new = function(x, y, speed, bounces)
+    new = function(x, y, speed, bounces, colors)
         r = {
             started = love.timer.getTime(),
             pos = bouncePositions(x, y, bounces),
             speed = speed,
             bounces = bounces,
-            colors = colors[love.math.random(1,table.getn(colors))],
+            colors = colors,
         }
         return r
     end,
