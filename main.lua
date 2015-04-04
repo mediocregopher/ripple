@@ -196,7 +196,11 @@ function love.update(dt)
         game.progress.jumps = game.progress.jumps + 1
 
         speed = love.math.random(w/20, w/15)
-        bounces = love.math.random(1,2)
+        if game.progress.jumps > 1 then
+            bounces = love.math.random(0,2)
+        else
+            bounces = love.math.random(1,2)
+        end
         addRipple(game.dude.pos.x, game.dude.pos.y, speed, bounces)
     end
 
