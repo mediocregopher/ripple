@@ -4,6 +4,9 @@ ripple = require 'ripple'
 -- We only do this once, not on every newGame
 introFade = 255
 
+-- How many seconds the dude should fade out for on death (times 255)
+deathFadeScale = 1 * 255
+
 function newGame()
     game = {
         ripples = {
@@ -18,6 +21,7 @@ function newGame()
         },
         progress = {
             died = false,
+            diedTS = 0,
             jumps = 0,
             outroFade = 255,
         }
@@ -147,6 +151,7 @@ function love.update(dt)
         for r in pairs(game.ripples) do
             if ripple.collided(r, game.dude.pos.x, game.dude.pos.y, game.dude.radius) then
                 game.progress.died = true
+                game.progress.diedTS = love.timer.getTime()
                 return
             end
         end
@@ -172,15 +177,13 @@ function love.draw()
 end
 
 function drawDude()
-    -- blink when dead
     if game.progress.died then
-        period = 0.25
-        if love.timer.getTime() % period < period / 2 then
-            return
-        end
+        alpha = 255 - math.clamp(0, (love.timer.getTime() - game.progress.diedTS) * deathFadeScale, 255)
+        love.graphics.setColor(211, 226, 182, alpha)
+    else
+        love.graphics.setColor(120, 168, 144)
     end
 
-    love.graphics.setColor(120,168,144)
     rad = game.dude.radius + (game.dude.zBump / 8)
     love.graphics.circle("fill", game.dude.pos.x, game.dude.pos.y - game.dude.zBump, rad, 50)
 end
