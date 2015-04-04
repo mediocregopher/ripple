@@ -186,19 +186,20 @@ function drawDude()
 end
 
 function drawUI()
+    if game.progress.died then
+        setFont("instr")
+        love.graphics.printf("Restart: r\nQuit: esc", 0, h/2 + 200, w, "center")
 
-    if game.progress.outroFade > 0 then
+    elseif game.progress.outroFade > 0 then
         setFont("title", game.progress.outroFade)
         love.graphics.printf("RIPPLE", 0, h/2 - 300, w, "center")
         setFont("instr", game.progress.outroFade)
         love.graphics.printf("Move: arrows/wasd\nJump: space", 0, h/2 + 200, w, "center")
-    else
+    end
+
+    if game.progress.jumps > 0 then
         setFont("count")
         love.graphics.printf(game.progress.jumps, w - 80, 10, 60, "right")
     end
 
-    if game.progress.died then
-        setFont("instr")
-        love.graphics.printf("Restart: r\nQuit: esc", 0, h/2 + 200, w, "center")
-    end
 end
