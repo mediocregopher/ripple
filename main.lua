@@ -186,7 +186,7 @@ function drawUI()
         setFont("title", game.progress.outroFade)
         love.graphics.printf("RIPPLE", 0, h/2 - 300, w, "center")
         setFont("instr", game.progress.outroFade)
-        love.graphics.printf("Arrows/WASD to move\nSpace to jump", 0, h/2 + 200, w, "center")
+        love.graphics.printf("Move: arrows/wasd\nJump: space", 0, h/2 + 200, w, "center")
     else
         setFont("count")
         love.graphics.printf(game.progress.jumps, w - 80, 10, 60, "right")
@@ -194,6 +194,6 @@ function drawUI()
 
     if game.progress.died then
         setFont("instr")
-        love.graphics.printf("r to restart\nEsc to quit", 0, h/2 + 200, w, "center")
+        love.graphics.printf("Restart: r\nQuit: esc", 0, h/2 + 200, w, "center")
     end
 end
