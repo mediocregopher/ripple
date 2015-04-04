@@ -107,13 +107,18 @@ function isDown(keys)
     end
 end
 
--- This needs to be here and not the normal key handling because we don't want
--- it to be able to be held down and continue to jump, which using isDown
--- wouldn't allow
+-- These keys have special properties which require them to be here and not in
+-- the normal key handling:
+-- * Space: we don't want the player to be able to continuously jump
+-- * r: this needs debouncing or else when you press it you'll actually be
+-- making 4 or 5 new games
 function love.keypressed(key, isrepeat)
     if key == "space" and not game.dude.inAir then
         game.dude.inAir = true
         game.dude.zVel = 12
+
+    elseif key == "r" then
+        game = newGame()
     end
 end
 
@@ -129,12 +134,6 @@ function love.update(dt)
     -- Always want to be able to quit
     if isDown({"escape"}) then
         love.event.quit()
-    end
-
-    -- Always want to be able to restart
-    if isDown({"r"}) then
-        game = newGame()
-        return
     end
 
     if game.progress.died then
