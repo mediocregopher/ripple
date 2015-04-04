@@ -111,17 +111,22 @@ function love.update(dt)
         end
     end
 
+    minx = game.dude.radius
+    miny = game.dude.radius
+    maxx = w - game.dude.radius
+    maxy = h - game.dude.radius
+
     if isDown({"w", "up"}) then
-        game.dude.pos.y = math.clamp(0, game.dude.pos.y - (dt * game.dude.speed), h)
+        game.dude.pos.y = math.clamp(miny, game.dude.pos.y - (dt * game.dude.speed), maxy)
     end
     if isDown({"s", "down"}) then
-        game.dude.pos.y = math.clamp(0, game.dude.pos.y + (dt * game.dude.speed), h)
+        game.dude.pos.y = math.clamp(miny, game.dude.pos.y + (dt * game.dude.speed), maxy)
     end
     if isDown({"a", "left"}) then
-        game.dude.pos.x = math.clamp(0, game.dude.pos.x - (dt * game.dude.speed), w)
+        game.dude.pos.x = math.clamp(minx, game.dude.pos.x - (dt * game.dude.speed), maxx)
     end
     if isDown({"d", "right"}) then
-        game.dude.pos.x = math.clamp(0, game.dude.pos.x + (dt * game.dude.speed), w)
+        game.dude.pos.x = math.clamp(minx, game.dude.pos.x + (dt * game.dude.speed), maxy)
     end
 
     game.dude.zBump = game.dude.zBump + game.dude.zVel

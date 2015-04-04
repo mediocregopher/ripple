@@ -78,10 +78,10 @@ return {
     end,
 
     collided = function(r, x, y, rad)
-        if love.timer.getTime() - r.started < 1 then
+        thisrad = radius(r)
+        if thisrad < rad * 1.05 then
             return false
         end
-        thisrad = radius(r)
         for _, pos in pairs(r.pos) do
             hs = math.pow(x-pos.x, 2) + math.pow(y-pos.y, 2)
             if hs > math.pow(thisrad+rad, 2) or math.sqrt(hs) <= math.abs(thisrad-rad) then
