@@ -134,7 +134,8 @@ end
 -- * r: this needs debouncing or else when you press it you'll actually be
 -- making 4 or 5 new games
 function love.keypressed(key, isrepeat)
-    if key == "space" and not game.dude.inAir then
+    -- it's "space" on linux, but " " on mac, bleh
+    if (key == "space" or key == " ") and not game.dude.inAir then
         game.dude.inAir = true
         game.dude.zVel = 12
 
