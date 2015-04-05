@@ -6,6 +6,8 @@ more ripples you make. And you can't touch the ripples.
 A little 2D lua game originally written inside of an 18-hour period, but which
 I've been developing and polishing up since. Made with [LÖVE][love].
 
+[See a short gameplay video](https://youtu.be/28fhbLUkbYE)
+
 # Installing
 
 You can find the latest compiled releases for various platforms under the
